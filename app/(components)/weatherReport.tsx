@@ -1,0 +1,173 @@
+import { Colors } from '@/constants/Colors';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Alert,
+} from 'react-native';
+
+export default function weatherReport() {
+  const router = useRouter();
+  const { pilotInfo } = useLocalSearchParams();
+
+  const [temperature, setTemperature] = useState('');
+  const [precipitation, setPrecipitation] = useState('');
+  const [humidity, setHumidity] = useState('');
+  const [wind, setWind] = useState('');
+  const [parsedPilotInfo, setParsedPilotInfo] = useState<any>(null);
+
+  useEffect(() => {
+    if (pilotInfo) {
+      const parsed = JSON.parse(pilotInfo as string);
+      setParsedPilotInfo(parsed);
+
+      AsyncStorage.setItem('pilotInfo', JSON.stringify(parsed));
+    }
+  }, [pilotInfo]);
+
+  const handleContinue = async () => {
+    const weatherData = {
+      temperature,
+      precipitation,
+      humidity,
+      wind,
+    };
+
+    try {
+      await AsyncStorage.setItem('weatherReport', JSON.stringify(weatherData));
+      console.log('Weather data saved:', weatherData);
+
+      const allData = {
+        pilotInfo: parsedPilotInfo,
+        weatherReport: weatherData,
+        username: parsedPilotInfo?.pilotName || 'anonymous',
+      };
+
+      // Pass both pilot and weather info to checklist page
+      router.push({
+        pathname: '/(components)/checklistscreen',
+        params: {
+          pilotInfo: JSON.stringify(allData.pilotInfo),
+          weatherReport: JSON.stringify(allData.weatherReport),
+          username: allData.username,
+        },
+      });
+
+      Alert.alert('Data Submitted', JSON.stringify(weatherData, null, 2));
+    } catch (err) {
+      Alert.alert('Error', 'Failed to save weather data');
+    }
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.title}>Weather Report</Text>
+        <Text style={styles.description}>
+          Enter the environmental conditions observed during the test.
+        </Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Temperature (°C)"
+          value={temperature}
+          onChangeText={setTemperature}
+          keyboardType="numeric"
+          placeholderTextColor="#888"
+          cursorColor={Colors.primary}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Precipitation (mm)"
+          value={precipitation}
+          onChangeText={setPrecipitation}
+          keyboardType="numeric"
+          placeholderTextColor="#888"
+          cursorColor={Colors.primary}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Humidity (%)"
+          value={humidity}
+          onChangeText={setHumidity}
+          keyboardType="numeric"
+          placeholderTextColor="#888"
+          cursorColor={Colors.primary}
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Wind (km/h)"
+          value={wind}
+          onChangeText={setWind}
+          keyboardType="numeric"
+          placeholderTextColor="#888"
+          cursorColor={Colors.primary}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={handleContinue}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F3F4F6',
+  },
+  scrollContainer: {
+    padding: 20,
+    paddingTop: 60,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 30,
+    color: '#555',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 20,
+    fontSize: 16,
+    backgroundColor: '#fff',
+    color: '#000',
+  },
+  button: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+    elevation: 2,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+})

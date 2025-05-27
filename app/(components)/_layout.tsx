@@ -1,0 +1,24 @@
+import { Colors } from "@/constants/Colors";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+
+export default function ComponentLayout() {
+  return (
+    <>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: Colors.primary },
+          headerTintColor: "#FFF",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack.Screen name="weatherReport" options={{ headerShown: true, headerTitle: "Weather Report" }} />
+        <Stack.Screen name="checklistscreen" options={{ headerShown: true, headerTitle: "Check list" }} />
+        <Stack.Screen name="checklistDetailsScreen" options={{ headerShown: false, headerTitle: "Check list" }} />
+      </Stack>
+      <StatusBar style="light" />
+    </>
+  );
+}
