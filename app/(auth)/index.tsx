@@ -16,7 +16,7 @@ import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function login() {
+export default function index() {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');

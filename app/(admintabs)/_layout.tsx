@@ -4,7 +4,7 @@ import React from "react";
 import { Colors } from "@/constants/Colors";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 
-export default function TabLayout() {
+export default function AdminTabLayout() {
     return (
         <Tabs
             initialRouteName="index"

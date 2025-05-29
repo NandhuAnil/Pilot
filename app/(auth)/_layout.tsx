@@ -6,6 +6,7 @@ export default function AuthLayout() {
   return (
     <>
       <Stack
+        initialRouteName="index"
         screenOptions={{
           headerStyle: { backgroundColor: Colors.primary },
           headerTintColor: "#FFF",

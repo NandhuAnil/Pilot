@@ -1,70 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from 'jwt-decode';
 import * as SplashScreen from 'expo-splash-screen';
+import { View, ActivityIndicator } from 'react-native';
+import { useRouter } from 'expo-router';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAppReady, setAppReady] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const prepareApp = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
+
         if (!token) {
-          setIsLoggedIn(false);
-          setUserRole(null);
+          router.replace('/(auth)');
           return;
         }
 
-        const response = await fetch('http://192.168.10.102:3000/api/auth/me', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const decoded = jwtDecode<{ role?: string }>(token);
+        const role = decoded?.role;
 
-        if (response.ok) {
-          const userData = await response.json();
-          setUserRole(userData.role);
-          setIsLoggedIn(true);
-          await AsyncStorage.setItem('user', JSON.stringify(userData));
+        if (role === 'admin') {
+          router.replace('/(admintabs)');
+        } else if (role === 'user') {
+          router.replace('/(tabs)');
         } else {
-          setIsLoggedIn(false);
-          setUserRole(null);
           await AsyncStorage.removeItem('token');
           await AsyncStorage.removeItem('user');
+          router.replace('/(auth)');
         }
-      } catch (e) {
-        setIsLoggedIn(false);
-        setUserRole(null);
+      } catch (err) {
+        console.error('Auth check failed:', err);
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user');
+        router.replace('/(auth)');
       } finally {
-        setIsLoading(false);
-        await SplashScreen.hideAsync(); // 👈 Hide splash after loading is done
+        setAppReady(true);
+        await SplashScreen.hideAsync();
       }
     };
 
-    checkAuth();
+    prepareApp();
   }, []);
 
-  if (isLoading) return null; // Don't render routes while loading
+  if (!isAppReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#007AFF" />
+      </View>
+    );
+  }
 
   return (
-    <Stack>
-      {!isLoggedIn ? (
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      ) : userRole === 'admin' ? (
-        <Stack.Screen name="(admintabs)" options={{ headerShown: false }} />
-      ) : userRole === 'user' ? (
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      ) : (
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      )}
-      <Stack.Screen name="(components)" options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(admintabs)" />
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(components)" />
     </Stack>
   );
 }
