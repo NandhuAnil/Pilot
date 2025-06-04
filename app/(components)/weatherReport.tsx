@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import {
-  View,
+  ToastAndroid,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Alert,
 } from 'react-native';
 
 export default function weatherReport() {
@@ -51,7 +50,6 @@ export default function weatherReport() {
         username: parsedPilotInfo?.pilotName || 'anonymous',
       };
 
-      // Pass both pilot and weather info to checklist page
       router.push({
         pathname: '/(components)/checklistscreen',
         params: {
@@ -61,9 +59,9 @@ export default function weatherReport() {
         },
       });
 
-      Alert.alert('Data Submitted', JSON.stringify(weatherData, null, 2));
+      ToastAndroid.show('Data Submitted', ToastAndroid.SHORT);
     } catch (err) {
-      Alert.alert('Error', 'Failed to save weather data');
+      ToastAndroid.show('Failed to save weather data', ToastAndroid.SHORT);
     }
   };
 

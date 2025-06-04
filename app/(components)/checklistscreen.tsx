@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
+  ToastAndroid,
+  Alert
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,7 +47,7 @@ export default function ChecklistScreen() {
         setToken(savedToken);
         setUsername(savedUser ? JSON.parse(savedUser).username : null);
       } catch (err) {
-        Alert.alert('Error', 'Failed to load data');
+        ToastAndroid.show('Failed to load data', ToastAndroid.SHORT);
       }
     };
 
@@ -93,13 +94,13 @@ export default function ChecklistScreen() {
 
       const result = await response.json();
       if (response.ok) {
-        Alert.alert('Submitted', 'Checklist data submitted successfully');
+        ToastAndroid.show('Submitted successfully', ToastAndroid.SHORT);
         router.push("/(tabs)")
       } else {
-        Alert.alert('Error', result.message || 'Failed to submit');
+        ToastAndroid.show('Error', result.message || 'Failed to submit');
       }
     } catch (err) {
-      Alert.alert('Network Error', 'Could not reach backend');
+      ToastAndroid.show('Network Error', ToastAndroid.SHORT);
     }
   };
 
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     elevation: 2,
+    marginBottom: 40,
   },
   buttonText: {
     color: '#fff',

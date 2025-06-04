@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View,
+  ToastAndroid,
   Text,
   TextInput,
   TouchableOpacity,
@@ -43,8 +43,8 @@ export default function index() {
 
     try {
       await AsyncStorage.setItem('pilotInfo', JSON.stringify(formData));
-      console.log('Saved to storage:', formData);
-      Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
+      // console.log('Saved to storage:', formData);
+      // Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
 
       router.push({
         pathname: "/(components)/weatherReport",
@@ -53,8 +53,8 @@ export default function index() {
         },
       });
     } catch (err) {
-      console.error('Error saving to AsyncStorage', err);
-      Alert.alert('Storage Error', 'Could not save pilot info');
+      ToastAndroid.show('Error saving to AsyncStorage', ToastAndroid.SHORT);
+      // Alert.alert('Storage Error', 'Could not save pilot info');
     }
   };
 

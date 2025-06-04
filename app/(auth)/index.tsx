@@ -1,6 +1,4 @@
 import {
-  ActivityIndicator,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -43,7 +41,7 @@ export default function index() {
 
   const onSubmit = async () => {
     if (!email || !password) {
-      // ToastAndroid.show('Please enter email and password', ToastAndroid.SHORT);
+      ToastAndroid.show('Please enter username and password', ToastAndroid.SHORT);
       return;
     }
 
@@ -72,18 +70,18 @@ export default function index() {
         await AsyncStorage.setItem('token', result.token);
         await AsyncStorage.setItem('user', JSON.stringify(result.user));
 
-        // ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+        ToastAndroid.show('Login successful', ToastAndroid.SHORT);
         if (result.user.role === 'user') {
           router.replace('/(tabs)');
         } else if (result.user.role === 'admin') {
           router.replace('/(admintabs)/home');
         }
       } else {
-        // ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
+        ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
       }
     } catch (err) {
-      console.error('Login error:', err);
-      // ToastAndroid.show('Network error', ToastAndroid.SHORT);
+      // console.error('Login error:', err);
+      ToastAndroid.show('Network error', ToastAndroid.SHORT);
     }
   };
 
@@ -99,16 +97,7 @@ export default function index() {
               color: Colors.black,
             }}
           >
-            Hi Welcome Back ! 👋
-          </Text>
-
-          <Text
-            style={{
-              fontSize: 16,
-              color: Colors.black,
-            }}
-          >
-            Hello again you have been missed!
+            Hi Welcome to Pilot Review! 👋
           </Text>
         </View>
 
@@ -177,6 +166,7 @@ export default function index() {
               secureTextEntry={!isPasswordShown}
               style={{
                 width: "100%",
+                color: "#000"
               }}
               value={password}
               onChangeText={setPassword}
@@ -221,41 +211,13 @@ export default function index() {
           }}
         >
           <TouchableOpacity
-            style={[styles.button,]} //loading && styles.buttonDisabled
+            style={[styles.button,]}
             onPress={onSubmit}
-            // disabled={loading}
             activeOpacity={0.7}
-          // onPress={() => router.replace("/(tabs)/index")}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginVertical: 22,
-          }}
-        >
-          <Text style={{ fontSize: 16, color: Colors.black }}>
-            Don't have an account ?{" "}
-          </Text>
-          <Pressable
-            // onPress={() => router.push("/(auth)/signup")}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                color: Colors.primary,
-                fontWeight: "bold",
-                marginLeft: 6,
-              }}
-            >
-              Register
-            </Text>
-          </Pressable>
-        </View> */}
       </View>
     </SafeAreaView>
   );

@@ -17,8 +17,7 @@ import { Colors } from "@/constants/Colors";
 type IconName = keyof typeof MaterialIcons.glyphMap;
 
 const categoryList = [
-  { id: 0, icon: "folder-shared" as IconName, title: "Tell Your Friend" },
-  { id: 1, icon: "settings" as IconName, title: "Settings" },
+  { id: 0, icon: "settings" as IconName, title: "Settings" },
 ];
 
 type DecodedToken = {
@@ -30,7 +29,6 @@ type DecodedToken = {
 
 export default function ProfileScreen() {
   const [username, setUsername] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
 
   const getRandomColor = () => {
     const letters = "0123456789ABCDEF";
@@ -58,7 +56,6 @@ export default function ProfileScreen() {
         const userString = await AsyncStorage.getItem("user");
         if (userString) {
           const user = JSON.parse(userString);
-          setEmail(user.email || "example@gmail.com");
         }
       } catch (error) {
         console.error("Failed to decode token:", error);

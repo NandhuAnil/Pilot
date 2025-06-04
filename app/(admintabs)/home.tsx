@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
+  ToastAndroid
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Colors } from "@/constants/Colors";
@@ -20,7 +20,7 @@ export default function AddUserScreen() {
 
   const handleCreateUser = async () => {
     if (!username || !password || !role) {
-      Alert.alert("Missing Fields", "All fields are required.");
+      ToastAndroid.show("Missing Fields - All fields are required.", ToastAndroid.SHORT);
       return;
     }
 
@@ -34,15 +34,13 @@ export default function AddUserScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert("Success", "User created successfully", [
-          { text: "OK", onPress: () => router.back() },
-        ]);
+        ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
       } else {
-        Alert.alert("Error", data.message || "Failed to create user.");
+        ToastAndroid.show("Error", data.message || "Failed to create user.");
       }
     } catch (err) {
       console.error(err);
-      Alert.alert("Network Error", "Could not reach the server.");
+      ToastAndroid.show("Network Error", ToastAndroid.SHORT);
     }
   };
 
