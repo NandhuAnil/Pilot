@@ -17,7 +17,7 @@ export default function ChecklistDetailsScreen() {
     const fetchEntry = async () => {
       try {
         const response = await fetch(
-          `http://192.168.10.102:3000/api/checklist/${username}`
+          `https://appsail-50027943202.development.catalystappsail.in/api/checklist/${username}`
         );
         const data = await response.json();
         setEntry(data.data?.[parseInt(index as string)]);

@@ -25,7 +25,7 @@ export default function AddUserScreen() {
     }
 
     try {
-      const response = await fetch("http://192.168.10.102:3000/api/auth/register", {
+      const response = await fetch("https://appsail-50027943202.development.catalystappsail.in/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role }),

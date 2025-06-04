@@ -30,7 +30,7 @@ export default function ChecklistListScreen() {
     useEffect(() => {
         const fetchAllChecklists = async () => {
             try {
-                const response = await fetch("http://192.168.10.102:3000/api/checklist/all");
+                const response = await fetch("https://appsail-50027943202.development.catalystappsail.in/api/checklist/all");
                 if (!response.ok) {
                     throw new Error("Failed to fetch checklist data");
                 }

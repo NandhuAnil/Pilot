@@ -7,7 +7,7 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 export default function AdminTabLayout() {
     return (
         <Tabs
-            initialRouteName="index"
+            initialRouteName="home"
             screenOptions={{
                 headerStyle: { backgroundColor: Colors.primary },
                 headerTintColor: "#FFF",
@@ -20,7 +20,7 @@ export default function AdminTabLayout() {
             }}
         >
             <Tabs.Screen
-                name="index"
+                name="home"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color, size }) => (

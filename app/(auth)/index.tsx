@@ -58,7 +58,7 @@ export default function index() {
       }
 
       // Send login request to backend
-      const response = await fetch('http://192.168.10.102:3000/api/auth/login', {
+      const response = await fetch('https://appsail-50027943202.development.catalystappsail.in/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +73,11 @@ export default function index() {
         await AsyncStorage.setItem('user', JSON.stringify(result.user));
 
         // ToastAndroid.show('Login successful', ToastAndroid.SHORT);
-        router.replace('/(tabs)');
+        if (result.user.role === 'user') {
+          router.replace('/(tabs)');
+        } else if (result.user.role === 'admin') {
+          router.replace('/(admintabs)/home');
+        }
       } else {
         // ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
       }

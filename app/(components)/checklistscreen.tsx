@@ -82,7 +82,7 @@ export default function ChecklistScreen() {
     };
 
     try {
-      const response = await fetch('http://192.168.10.102:3000/api/checklist/save', {
+      const response = await fetch('https://appsail-50027943202.development.catalystappsail.in/api/checklist/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
