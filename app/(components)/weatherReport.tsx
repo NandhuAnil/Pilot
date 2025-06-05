@@ -40,6 +40,11 @@ export default function weatherReport() {
       wind,
     };
 
+    if (!weatherData) {
+      ToastAndroid.show('Please enter All the fields', ToastAndroid.SHORT);
+      return;
+    }
+    
     try {
       await AsyncStorage.setItem('weatherReport', JSON.stringify(weatherData));
       console.log('Weather data saved:', weatherData);

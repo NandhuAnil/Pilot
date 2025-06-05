@@ -41,6 +41,11 @@ export default function index() {
       testCase,
     };
 
+    if (!formData) {
+      ToastAndroid.show('Please enter All the fields', ToastAndroid.SHORT);
+      return;
+    }
+
     try {
       await AsyncStorage.setItem('pilotInfo', JSON.stringify(formData));
       // console.log('Saved to storage:', formData);

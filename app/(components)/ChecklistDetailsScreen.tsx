@@ -1,12 +1,12 @@
+import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
-  ActivityIndicator,
+  Text,
+  View,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
 
 export default function ChecklistDetailsScreen() {
   const { username, index } = useLocalSearchParams();
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   checklistLabel: {
     fontSize: 17,
     color: "#333",
+    width: "70%"
   },
   statusBadge: {
     borderRadius: 12,
