@@ -51,7 +51,7 @@ export default function RootLayout() {
   if (userRole === 'user') {
     initialRoute = '(tabs)';
   } else if (userRole === 'admin') {
-    initialRoute = '(admintabs)/home';
+    initialRoute = '(admintabs)/checklistListScreen';
   }
 
   return (

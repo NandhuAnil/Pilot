@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
+const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+
 interface PilotInfo {
     date?: string;
     pilotName?: string; // add pilot name
@@ -30,7 +32,7 @@ export default function ChecklistListScreen() {
     useEffect(() => {
         const fetchAllChecklists = async () => {
             try {
-                const response = await fetch("https://appsail-50027943202.development.catalystappsail.in/api/checklist/all");
+                const response = await fetch(`${APIURL}/api/checklist/all`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch checklist data");
                 }
@@ -54,7 +56,6 @@ export default function ChecklistListScreen() {
         const [username, entries] = item;
         return (
             <View style={styles.userSection}>
-                <Text style={styles.username}>Daily report</Text>
                 {entries
                     .slice()
                     .sort((a, b) => {
@@ -105,6 +106,7 @@ export default function ChecklistListScreen() {
 const styles = StyleSheet.create({
     userSection: {
         marginBottom: 24,
+        padding: 0
     },
     username: {
         fontSize: 22,
@@ -114,9 +116,9 @@ const styles = StyleSheet.create({
     },
     entryCard: {
         backgroundColor: "#fff",
-        padding: 14,
-        borderRadius: 10,
-        marginBottom: 12,
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 5,
         // Shadow for iOS
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 3 },
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     },
     pilotName: {
         fontSize: 18,
-        fontWeight: "600",
+        fontWeight: "400",
         color: "#333",
     },
     entryDate: {

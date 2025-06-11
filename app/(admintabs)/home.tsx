@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ToastAndroid
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
@@ -17,6 +18,7 @@ export default function AddUserScreen() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<RoleType>("");
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   const handleCreateUser = async () => {
     if (!username || !password || !role) {
@@ -57,14 +59,54 @@ export default function AddUserScreen() {
         autoCapitalize="none"
       />
 
-      <TextInput
+      {/* <TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         placeholderTextColor="#999"
-      />
+      /> */}
+      <View
+        style={{
+          width: "100%",
+          height: 48,
+          borderColor: Colors.black,
+          borderWidth: 1,
+          borderRadius: 8,
+          alignItems: "center",
+          justifyContent: "center",
+          paddingLeft: 22,
+          marginBottom: 15,
+        }}
+      >
+        <TextInput
+          placeholder="Enter your password"
+          placeholderTextColor={Colors.black}
+          secureTextEntry={!isPasswordShown}
+          style={{
+            width: "100%",
+            color: "#000"
+          }}
+          value={password}
+          onChangeText={setPassword}
+          cursorColor={Colors.primary}
+        />
+
+        <TouchableOpacity
+          onPress={() => setIsPasswordShown(!isPasswordShown)}
+          style={{
+            position: "absolute",
+            right: 12,
+          }}
+        >
+          {isPasswordShown == true ? (
+            <Ionicons name="eye-off" size={24} color={Colors.black} />
+          ) : (
+            <Ionicons name="eye" size={24} color={Colors.black} />
+          )}
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.pickerContainer}>
         <Picker
@@ -93,7 +135,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: "600",
     marginBottom: 30,
     textAlign: "center",
@@ -101,7 +143,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: Colors.black,
     borderRadius: 10,
     padding: 15,
     fontSize: 16,
@@ -110,24 +152,27 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: Colors.black,
     borderRadius: 10,
     marginBottom: 15,
+    paddingHorizontal: 10,
   },
   picker: {
     height: 50,
     color: "#333",
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
   },
   button: {
     backgroundColor: Colors.primary,
-    padding: 15,
+    padding: 13,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 10,
   },
   buttonText: {
     color: "#fff",
-    fontSize: 17,
-    fontWeight: "600",
+    fontSize: 14,
+    fontWeight: "400",
   },
 });

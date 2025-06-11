@@ -12,6 +12,12 @@ export default function ChecklistDetailsScreen() {
   const { username, index } = useLocalSearchParams();
   const [entry, setEntry] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const unitsMap: Record<string, string> = {
+    temperature: '°C',
+    precipitation: 'mm',
+    humidity: '%',
+    wind: 'km/h',
+  };
 
   useEffect(() => {
     const fetchEntry = async () => {
@@ -56,7 +62,7 @@ export default function ChecklistDetailsScreen() {
         {Object.entries(entry.weatherReport || {}).map(([key, value]) => (
           <View key={key} style={styles.row}>
             <Text style={styles.label}>{capitalize(key)}:</Text>
-            <Text style={styles.value}>{String(value)}</Text>
+            <Text style={styles.value}>{String(value)} {unitsMap[key] || ''}</Text>
           </View>
         ))}
       </View>
@@ -107,8 +113,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   heading: {
-    fontSize: 22,
-    fontWeight: "700",
+    fontSize: 18,
+    fontWeight: "600",
     borderBottomWidth: 2,
     borderBottomColor: "#007AFF",
     paddingBottom: 6,
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    fontWeight: "600",
+    fontWeight: "500",
     color: "#444",
     fontSize: 16,
   },

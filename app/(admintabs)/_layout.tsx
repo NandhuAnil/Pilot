@@ -7,7 +7,7 @@ import { AntDesign, Entypo } from "@expo/vector-icons";
 export default function AdminTabLayout() {
     return (
         <Tabs
-            initialRouteName="home"
+            initialRouteName="checklistListScreen"
             screenOptions={{
                 headerStyle: { backgroundColor: Colors.primary },
                 headerTintColor: "#FFF",
@@ -20,20 +20,21 @@ export default function AdminTabLayout() {
             }}
         >
             <Tabs.Screen
-                name="home"
-                options={{
-                    title: "Home",
-                    tabBarIcon: ({ color, size }) => (
-                        <AntDesign name="home" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
                 name="checklistListScreen"
                 options={{
                     title: "Report",
                     tabBarIcon: ({ color, size }) => (
                         <Entypo name="list" size={size} color={color} />
+                    ),
+                    headerShown: true,
+                }}
+            />
+            <Tabs.Screen
+                name="home"
+                options={{
+                    title: "Add Users",
+                    tabBarIcon: ({ color, size }) => (
+                        <AntDesign name="addusergroup" size={size} color={color} />
                     ),
                 }}
             />

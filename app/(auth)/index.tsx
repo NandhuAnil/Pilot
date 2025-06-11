@@ -14,6 +14,8 @@ import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+
 export default function index() {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
@@ -56,7 +58,7 @@ export default function index() {
       }
 
       // Send login request to backend
-      const response = await fetch('https://appsail-50027943202.development.catalystappsail.in/api/auth/login', {
+      const response = await fetch(`${APIURL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +76,7 @@ export default function index() {
         if (result.user.role === 'user') {
           router.replace('/(tabs)');
         } else if (result.user.role === 'admin') {
-          router.replace('/(admintabs)/home');
+          router.replace('/(admintabs)/checklistListScreen');
         }
       } else {
         ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);

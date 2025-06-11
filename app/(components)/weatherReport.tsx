@@ -2,6 +2,7 @@ import { Colors } from '@/constants/Colors';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 import {
   ToastAndroid,
   Text,
@@ -12,6 +13,8 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+
+const WEATHER_API_KEY = '2820de08909b4771b8960833251106';
 
 export default function weatherReport() {
   const router = useRouter();
@@ -24,13 +27,45 @@ export default function weatherReport() {
   const [parsedPilotInfo, setParsedPilotInfo] = useState<any>(null);
 
   useEffect(() => {
-    if (pilotInfo) {
-      const parsed = JSON.parse(pilotInfo as string);
-      setParsedPilotInfo(parsed);
+    const init = async () => {
+      if (pilotInfo) {
+        const parsed = JSON.parse(pilotInfo as string);
+        setParsedPilotInfo(parsed);
+        await AsyncStorage.setItem('pilotInfo', JSON.stringify(parsed));
+      }
 
-      AsyncStorage.setItem('pilotInfo', JSON.stringify(parsed));
-    }
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        ToastAndroid.show('Permission to access location was denied', ToastAndroid.SHORT);
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+
+      fetchWeatherData(latitude, longitude);
+    };
+
+    init();
   }, [pilotInfo]);
+
+  const fetchWeatherData = async (lat: number, lon: number) => {
+    try {
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${lat},${lon}`
+      );
+      const json = await response.json();
+      const data = json.current;
+
+      setTemperature(data.temp_c.toString());
+      setHumidity(data.humidity.toString());
+      setWind(data.wind_kph.toString());
+      setPrecipitation(data.precip_mm.toString());
+    } catch (error) {
+      ToastAndroid.show('Failed to fetch weather', ToastAndroid.SHORT);
+      console.error(error);
+    }
+  };
 
   const handleContinue = async () => {
     const weatherData = {
@@ -44,7 +79,7 @@ export default function weatherReport() {
       ToastAndroid.show('Please enter All the fields', ToastAndroid.SHORT);
       return;
     }
-    
+
     try {
       await AsyncStorage.setItem('weatherReport', JSON.stringify(weatherData));
       console.log('Weather data saved:', weatherData);

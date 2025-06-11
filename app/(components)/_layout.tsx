@@ -16,7 +16,7 @@ export default function ComponentLayout() {
       >
         <Stack.Screen name="weatherReport" options={{ headerShown: true, headerTitle: "Weather Report" }} />
         <Stack.Screen name="checklistscreen" options={{ headerShown: true, headerTitle: "Check list" }} />
-        <Stack.Screen name="checklistDetailsScreen" options={{ headerShown: false, headerTitle: "Check list" }} />
+        <Stack.Screen name="checklistDetailsScreen" options={{ headerShown: true, headerTitle: "Pilot Report" }} />
       </Stack>
       <StatusBar style="light" />
     </>
