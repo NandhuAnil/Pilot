@@ -18,6 +18,7 @@ interface PilotInfo {
 }
 
 interface ChecklistEntry {
+    id: string;
     pilotInfo?: PilotInfo;
     weatherReport?: object;
     checklist?: any[];
@@ -68,12 +69,12 @@ export default function ChecklistListScreen() {
                         const date = entry.pilotInfo?.date || `Entry ${entries.length - index}`;
                         return (
                             <TouchableOpacity
-                                key={index}
+                                key={entry.id || index}
                                 style={styles.entryCard}
                                 onPress={() =>
                                     router.push({
                                         pathname: "/(components)/ChecklistDetailsScreen",
-                                        params: { username, index: index.toString() },
+                                        params: { username, entryId: entry.id, },
                                     })
                                 }
                                 activeOpacity={0.8}

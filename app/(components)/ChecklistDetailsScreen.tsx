@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 export default function ChecklistDetailsScreen() {
-  const { username, index } = useLocalSearchParams();
+  const { username, entryId } = useLocalSearchParams();
   const [entry, setEntry] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const unitsMap: Record<string, string> = {
@@ -26,7 +26,8 @@ export default function ChecklistDetailsScreen() {
           `https://appsail-50027943202.development.catalystappsail.in/api/checklist/${username}`
         );
         const data = await response.json();
-        setEntry(data.data?.[parseInt(index as string)]);
+        const matched = data.data?.find((item: any) => item.id === entryId);
+        setEntry(matched || null);
       } catch (err) {
         console.error("Error fetching entry details:", err);
       } finally {
