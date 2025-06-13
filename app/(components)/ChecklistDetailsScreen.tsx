@@ -8,26 +8,32 @@ import {
   View,
 } from "react-native";
 
+const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+
 export default function ChecklistDetailsScreen() {
-  const { username, entryId } = useLocalSearchParams();
+  const { entryId } = useLocalSearchParams();
   const [entry, setEntry] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
   const unitsMap: Record<string, string> = {
-    temperature: '°C',
-    precipitation: 'mm',
-    humidity: '%',
-    wind: 'km/h',
+    temperature: "°C",
+    precipitation: "mm",
+    humidity: "%",
+    wind: "km/h",
   };
 
   useEffect(() => {
     const fetchEntry = async () => {
       try {
-        const response = await fetch(
-          `https://appsail-50027943202.development.catalystappsail.in/api/checklist/${username}`
-        );
+        const response = await fetch(`${APIURL}/api/checklist/${entryId}`);
         const data = await response.json();
-        const matched = data.data?.find((item: any) => item.id === entryId);
-        setEntry(matched || null);
+
+        if (data && data.pilotInfo) {
+          setEntry(data); // Data is already parsed on backend
+        } else {
+          console.warn("Invalid data format:", data);
+          setEntry(null);
+        }
       } catch (err) {
         console.error("Error fetching entry details:", err);
       } finally {
@@ -46,7 +52,7 @@ export default function ChecklistDetailsScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Pilot Info Card */}
+      {/* Pilot Info */}
       <View style={styles.card}>
         <Text style={styles.heading}>Pilot Info</Text>
         {Object.entries(entry.pilotInfo || {}).map(([key, value]) => (
@@ -57,32 +63,28 @@ export default function ChecklistDetailsScreen() {
         ))}
       </View>
 
-      {/* Weather Report Card */}
+      {/* Weather Report */}
       <View style={styles.card}>
         <Text style={styles.heading}>Weather Report</Text>
         {Object.entries(entry.weatherReport || {}).map(([key, value]) => (
           <View key={key} style={styles.row}>
             <Text style={styles.label}>{capitalize(key)}:</Text>
-            <Text style={styles.value}>{String(value)} {unitsMap[key] || ''}</Text>
+            <Text style={styles.value}>
+              {String(value)} {unitsMap[key] || ""}
+            </Text>
           </View>
         ))}
       </View>
 
-      {/* Checklist Card */}
+      {/* Checklist */}
       <View style={styles.card}>
         <Text style={styles.heading}>Checklist</Text>
-        {entry.checklist.map((item: any, i: number) => (
+        {entry.checklist?.map((item: any, i: number) => (
           <View key={i} style={styles.checklistRow}>
             <Text style={styles.checklistLabel}>{item.title}</Text>
-            <View
-              style={[
-                styles.statusBadge
-              ]}
-            >
-              <Text style={styles.statusText}>
-                {item.checked ? "✅" : "❌"}
-              </Text>
-            </View>
+            <Text style={[styles.statusText, item.checked ? styles.checked : styles.notChecked]}>
+              {item.checked ? "✅" : "❌"}
+            </Text>
           </View>
         ))}
       </View>
@@ -90,7 +92,6 @@ export default function ChecklistDetailsScreen() {
   );
 }
 
-// Helper to capitalize keys nicely
 const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).replace(/_/g, " ");
 
@@ -105,12 +106,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 24,
-    // Shadow for iOS
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    // Elevation for Android
     elevation: 4,
   },
   heading: {
@@ -148,23 +147,17 @@ const styles = StyleSheet.create({
   checklistLabel: {
     fontSize: 17,
     color: "#333",
-    width: "70%"
-  },
-  statusBadge: {
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    minWidth: 70,
-    alignItems: "center",
+    width: "70%",
   },
   checked: {
-    backgroundColor: "#4caf50",
+    color: "#4caf50",
+    fontWeight: "700",
   },
   notChecked: {
-    backgroundColor: "#f44336",
+    color: "#f44336",
+    fontWeight: "700",
   },
   statusText: {
-    color: "#fff",
-    fontWeight: "700",
+    fontSize: 18,
   },
 });

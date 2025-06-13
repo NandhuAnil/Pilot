@@ -34,11 +34,9 @@ export default function ChecklistListScreen() {
         const fetchAllChecklists = async () => {
             try {
                 const response = await fetch(`${APIURL}/api/checklist/all`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch checklist data");
-                }
-                const data: ChecklistData = await response.json();
-                setChecklists(data);
+                const result = await response.json();
+
+                setChecklists(result);
             } catch (err) {
                 console.error("Error fetching checklist data:", err);
             } finally {
@@ -67,6 +65,10 @@ export default function ChecklistListScreen() {
                     .map((entry: ChecklistEntry, index: number) => {
                         const pilotName = entry.pilotInfo?.pilotName || "Unknown Pilot";
                         const date = entry.pilotInfo?.date || `Entry ${entries.length - index}`;
+                        console.log("Navigating with:", {
+                            username,
+                            entryId: entry.id
+                        });
                         return (
                             <TouchableOpacity
                                 key={entry.id || index}
@@ -74,7 +76,7 @@ export default function ChecklistListScreen() {
                                 onPress={() =>
                                     router.push({
                                         pathname: "/(components)/ChecklistDetailsScreen",
-                                        params: { username, entryId: entry.id, },
+                                        params: { entryId: entry.id, },
                                     })
                                 }
                                 activeOpacity={0.8}

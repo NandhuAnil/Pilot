@@ -22,6 +22,7 @@ export default function index() {
   const [password, setPassword] = useState<string>('');
   const [isPasswordShown, setIsPasswordShown] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const loadCredentials = async () => {
@@ -46,7 +47,7 @@ export default function index() {
       ToastAndroid.show('Please enter username and password', ToastAndroid.SHORT);
       return;
     }
-
+    setSubmitting(true);
     try {
       // Save or clear remembered credentials
       if (isChecked) {
@@ -84,6 +85,8 @@ export default function index() {
     } catch (err) {
       // console.error('Login error:', err);
       ToastAndroid.show('Network error', ToastAndroid.SHORT);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -217,7 +220,7 @@ export default function index() {
             onPress={onSubmit}
             activeOpacity={0.7}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>{submitting ? 'Login...' : 'Login'}</Text>
           </TouchableOpacity>
         </View>
       </View>

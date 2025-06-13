@@ -124,10 +124,6 @@
     "description": "Check again if the drone is properly armed before takeoff. Ensure that all the systems, including battery, propellers, GPS, and other components, are functioning correctly."
   },
   {
-    "title": "Safe Distance Stand",
-    "description": "Stand at a safe distance from the drone during takeoff and maintain it throughout the flight. Ensure that there are no obstacles or people nearby that could cause any interference."
-  },
-  {
     "title": "Position Mode",
     "description": "Use position mode for precise flying and control. This mode allows the drone to hold its position in the air and hover accurately, making it easier to control."
   },

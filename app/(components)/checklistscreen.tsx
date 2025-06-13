@@ -25,6 +25,7 @@ export default function ChecklistScreen() {
   const [weatherReport, setWeatherReport] = useState<any>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const params = useLocalSearchParams();
 
@@ -75,6 +76,7 @@ export default function ChecklistScreen() {
   };
 
   const handleSubmit = async () => {
+    setSubmitting(true);
     const payload = {
       username,
       pilotInfo,
@@ -101,6 +103,8 @@ export default function ChecklistScreen() {
       }
     } catch (err) {
       ToastAndroid.show('Network Error', ToastAndroid.SHORT);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -125,7 +129,7 @@ export default function ChecklistScreen() {
         </View>
       ))}
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
+        <Text style={styles.buttonText}>{submitting ? 'Submitting...' : 'Submit'}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
