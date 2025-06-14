@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  View,
 } from 'react-native';
 
 const WEATHER_API_KEY = '2820de08909b4771b8960833251106';
@@ -159,6 +160,9 @@ export default function weatherReport() {
         <TouchableOpacity style={styles.button} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
+        <View>
+          <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

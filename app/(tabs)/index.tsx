@@ -9,6 +9,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  View,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors } from '@/constants/Colors';
@@ -120,6 +121,9 @@ export default function index() {
         <TouchableOpacity style={styles.button} onPress={handleContinue}>
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
+        <View>
+          <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

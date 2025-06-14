@@ -110,7 +110,7 @@ export default function ChecklistScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Pre-Flight Checklist</Text>
+      <Text style={styles.title}>Pre-Approved List</Text>
       {guidelines.map((item, index) => (
         <View key={index} style={styles.row}>
           <TouchableOpacity
@@ -131,6 +131,9 @@ export default function ChecklistScreen() {
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>{submitting ? 'Submitting...' : 'Submit'}</Text>
       </TouchableOpacity>
+      <View>
+        <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>
+      </View>
     </ScrollView>
   );
 }

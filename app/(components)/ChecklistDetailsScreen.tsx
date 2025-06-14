@@ -88,6 +88,9 @@ export default function ChecklistDetailsScreen() {
           </View>
         ))}
       </View>
+      <View>
+        <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>
+      </View>
     </ScrollView>
   );
 }

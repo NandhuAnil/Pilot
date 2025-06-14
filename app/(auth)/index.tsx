@@ -1,4 +1,5 @@
 import {
+  ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -102,7 +103,7 @@ export default function index() {
               color: Colors.black,
             }}
           >
-            Hi Welcome to Pilot Review! 👋
+            Welcome to VAANFLY Pilot Assist
           </Text>
         </View>
 
@@ -223,6 +224,9 @@ export default function index() {
             <Text style={styles.buttonText}>{submitting ? 'Login...' : 'Login'}</Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View>
+        <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>
       </View>
     </SafeAreaView>
   );
