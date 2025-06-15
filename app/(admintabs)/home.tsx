@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  ToastAndroid
-} from "react-native";
+import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { Colors } from "@/constants/Colors";
-import { router } from "expo-router";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 type RoleType = "" | "admin" | "user";
 
@@ -27,7 +26,7 @@ export default function AddUserScreen() {
     }
 
     try {
-      const response = await fetch("https://appsail-50027943202.development.catalystappsail.in/api/auth/register", {
+      const response = await fetch("https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role }),
@@ -37,6 +36,9 @@ export default function AddUserScreen() {
 
       if (response.ok) {
         ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
+        setUsername("");
+        setPassword("");
+        setRole("");
       } else {
         ToastAndroid.show("Error", data.message || "Failed to create user.");
       }

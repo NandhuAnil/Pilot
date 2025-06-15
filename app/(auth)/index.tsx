@@ -14,8 +14,9 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import ENV from '@/constants/env';
 
-const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app";
 
 export default function index() {
   const router = useRouter();
@@ -84,7 +85,7 @@ export default function index() {
         ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
       }
     } catch (err) {
-      // console.error('Login error:', err);
+      console.error('Login error:', err);
       ToastAndroid.show('Network error', ToastAndroid.SHORT);
     } finally {
       setSubmitting(false);

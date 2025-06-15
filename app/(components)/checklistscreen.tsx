@@ -85,7 +85,7 @@ export default function ChecklistScreen() {
     };
 
     try {
-      const response = await fetch('https://appsail-50027943202.development.catalystappsail.in/api/checklist/save', {
+      const response = await fetch('https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app/api/checklist/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

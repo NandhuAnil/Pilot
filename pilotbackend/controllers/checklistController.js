@@ -10,18 +10,23 @@ const getChecklistData = () => {
 
 // Save JSON file
 const saveChecklistData = (data) => {
-  fs.writeFileSync(checklistFile, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(checklistFile, JSON.stringify(data, null, 2));
+    console.log('✅ Checklist data saved');
+  } catch (err) {
+    console.error('❌ Error writing checklist file:', err);
+  }
 };
 
 // POST /api/checklist/save
-exports.saveChecklist = (req, res) => {
+exports.saveChecklist = async (req, res) => {
   const { username, pilotInfo, weatherReport, checklist } = req.body;
 
   if (!username || !pilotInfo || !weatherReport || !Array.isArray(checklist)) {
     return res.status(400).json({ message: 'Invalid or missing data' });
   }
 
-  const allData = getChecklistData();
+  const allData = await getChecklistData();
 
   if (!allData[username]) {
     allData[username] = [];
@@ -34,15 +39,18 @@ exports.saveChecklist = (req, res) => {
 };
 
 // GET /api/checklist/:username
-exports.getChecklist = (req, res) => {
-  const username = req.params.username;
-  const allData = getChecklistData();
+exports.getChecklist = async (req, res) => {
+  const { username } = req.params;
+  const allData = await getChecklistData();
 
-  if (!allData[username]) {
-    return res.status(404).json({ message: 'No data found for user' });
+  const userEntries = allData[username];
+
+  if (!userEntries || userEntries.length === 0) {
+    return res.status(404).json({ message: 'No checklist found for user' });
   }
 
-  res.status(200).json({ username, data: allData[username] });
+  const latestEntry = userEntries[userEntries.length - 1];
+  return res.status(200).json(latestEntry); // 🔁 return the object directly
 };
 
 exports.getAllChecklists = (req, res) => {

@@ -100,7 +100,7 @@ export default function weatherReport() {
         },
       });
 
-      ToastAndroid.show('Data Submitted', ToastAndroid.SHORT);
+      // ToastAndroid.show('Data Submitted', ToastAndroid.SHORT);
     } catch (err) {
       ToastAndroid.show('Failed to save weather data', ToastAndroid.SHORT);
     }

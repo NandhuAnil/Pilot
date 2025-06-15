@@ -20,7 +20,7 @@
   {
     "id": 4,
     "username": "nandha",
-    "password": "$2b$10$ghU5YhkJUgzj/WQYsdGRkORwO1dF9ZZTa9UkUSJMRl2tXWGEK.gNK",
+    "password": "$2a$10$fB4jUOKSqx1RNLXO2s3EPeVCpuCN8jlx6s0rNBRIOfhvMpBpAc9gy",
     "role": "admin"
   },
   {
@@ -33,6 +33,12 @@
     "id": 6,
     "username": "kavya123",
     "password": "$2b$10$u0oGtnNvR8Bb6WG5IFRSYu2GQLROGftBb.X4MImHJCN3TkE9MLiha",
+    "role": "user"
+  },
+  {
+    "id": 7,
+    "username": "test",
+    "password": "$2b$10$SEysy2gzS5u2MoG3KI0GY.QQ60hFVDYfNPz1d2AQrk4UIHoDP4RvC",
     "role": "user"
   }
 ]
