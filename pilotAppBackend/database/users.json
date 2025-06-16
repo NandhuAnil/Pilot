@@ -2,37 +2,25 @@
   {
     "id": 1,
     "username": "admin",
-    "password": "admin123",
+    "password": "$2a$10$Cg6EJrat/bNGGFZGvMLroOeOfz5/TiMKiZU3/BVF4NgxNaU9oDnx6",
     "role": "admin"
   },
   {
     "id": 2,
-    "username": "user1",
-    "password": "user123",
+    "username": "user",
+    "password": "$2a$10$Cg6EJrat/bNGGFZGvMLroOeOfz5/TiMKiZU3/BVF4NgxNaU9oDnx6",
     "role": "user"
   },
   {
     "id": 3,
-    "username": "aravind",
-    "password": "$2b$10$HBI3kS9wEN2vuNLFiZ94vO2sOyOwm9QMb1qf2RTI7m.PYJLB/WxOa",
+    "username": "user1",
+    "password": "$2b$10$c.RsMzz5/gu3nzC7fv7Wpu92bvYm.NfcX.hEJESPoWLk4GLC58nS.",
     "role": "user"
   },
   {
     "id": 4,
-    "username": "nandha",
-    "password": "$2b$10$ghU5YhkJUgzj/WQYsdGRkORwO1dF9ZZTa9UkUSJMRl2tXWGEK.gNK",
+    "username": "admin1",
+    "password": "$2b$10$DpQ4cD1UFqc.NdUTmdI0nuleXrvIQOoFxzh9mz3suZLKZIoprt.qW",
     "role": "admin"
-  },
-  {
-    "id": 5,
-    "username": "kavya",
-    "password": "$2b$10$lq7IYPX.IJTZMOF1aaaxx.7oLp3DW7tpDPhKXFJ5p1HUAN7TSRJtO",
-    "role": "admin"
-  },
-  {
-    "id": 6,
-    "username": "kavya123",
-    "password": "$2b$10$u0oGtnNvR8Bb6WG5IFRSYu2GQLROGftBb.X4MImHJCN3TkE9MLiha",
-    "role": "user"
   }
 ]

@@ -7,11 +7,12 @@ import {
     StyleSheet,
     Modal,
     ToastAndroid,
+    Platform
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Progress from 'react-native-progress';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-const APIURL = "https://5b7d-103-163-95-99.ngrok-free.app";
+const APIURL = "https://3e3b-2409-408d-303-638e-40e4-c5bb-7cfe-d7c6.ngrok-free.app";
 
 const AfterFlyingImageUploader: React.FC = () => {
     const params = useLocalSearchParams();
@@ -49,11 +50,24 @@ const AfterFlyingImageUploader: React.FC = () => {
         const imageName = `after_flying_${Date.now()}.${fileType}`;
 
         const formData = new FormData();
-        formData.append('file', {
-            uri: image,
-            name: imageName,
-            type: `image/${fileType}`,
-        } as any);
+        if (Platform.OS === 'web') {
+            // Convert URI to blob for web
+            const response = await fetch(image);
+            const blob = await response.blob();
+
+            const webFile = new File([blob], imageName, {
+                type: `image/${fileType}`,
+            });
+
+            formData.append('file', webFile);
+        } else {
+            // Use native file object
+            formData.append('file', {
+                uri: image,
+                name: imageName,
+                type: `image/${fileType}`,
+            } as any);
+        }
 
         setUploading(true);
         setModalVisible(true);
@@ -70,16 +84,16 @@ const AfterFlyingImageUploader: React.FC = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setAfterFlyingImageName(data.imageUrl); 
-                // ToastAndroid.show('Image uploaded successfully', ToastAndroid.SHORT);
+                setAfterFlyingImageName(data.imageUrl);
+                ToastAndroid.show('Image uploaded successfully', ToastAndroid.SHORT);
                 console.log('Image uploaded successfully');
             } else {
                 console.log(`Upload failed: ${data.message}`);
-                // ToastAndroid.show(`Upload failed: ${data.message}`, ToastAndroid.LONG);
+                ToastAndroid.show(`Upload failed: ${data.message}`, ToastAndroid.LONG);
             }
         } catch (error) {
             console.error('Upload failed:', error);
-            // ToastAndroid.show('Upload failed', ToastAndroid.LONG);
+            ToastAndroid.show('Upload failed', ToastAndroid.LONG);
         } finally {
             setTimeout(() => {
                 setUploading(false);
@@ -190,7 +204,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 20,
         fontWeight: '500',
-        color: '#1E90FF',
+        color: '#000',
         marginBottom: 30,
         textAlign: 'center',
     },
@@ -205,7 +219,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
     },
     placeholder: {
-        height: 250,
+        height: 350,
         borderRadius: 12,
         borderWidth: 2,
         borderColor: '#cce0f9',
@@ -219,7 +233,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     preview: {
-        height: 180,
+        height: 350,
         borderRadius: 12,
         width: '100%',
         marginBottom: 15,

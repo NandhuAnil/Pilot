@@ -16,7 +16,17 @@ const saveChecklistData = (data) => {
 exports.saveChecklist = (req, res) => {
   const { username, pilotInfo, weatherReport, checklist } = req.body;
 
-  if (!username || !pilotInfo || !weatherReport || !Array.isArray(checklist)) {
+  // Validate required fields
+  if (
+    !username ||
+    !pilotInfo ||
+    !weatherReport ||
+    !checklist ||
+    typeof checklist !== 'object' ||
+    !checklist.beforeFlyingImage ||
+    !checklist.afterFlyingImage ||
+    !checklist.guidelines
+  ) {
     return res.status(400).json({ message: 'Invalid or missing data' });
   }
 
@@ -27,9 +37,10 @@ exports.saveChecklist = (req, res) => {
   }
 
   allData[username].push({ pilotInfo, weatherReport, checklist });
+
   saveChecklistData(allData);
 
-  res.status(200).json({ message: 'Data saved successfully' });
+  return res.status(200).json({ message: 'Data saved successfully' });
 };
 
 // GET /api/checklist/:username
@@ -37,11 +48,14 @@ exports.getChecklist = async (req, res) => {
   const username = req.params.username;
   const allData = await getChecklistData();
 
-  if (!allData[username]) {
+  if (!allData[username] || allData[username].length === 0) {
     return res.status(404).json({ message: 'No data found for user' });
   }
 
-  res.status(200).json({ username, data: allData[username] });
+  // Return the latest entry (or modify to return a specific one by ID)
+  const latestEntry = allData[username][allData[username].length - 1];
+
+  res.status(200).json(latestEntry);
 };
 
 exports.getAllChecklists = async (req, res) => {

@@ -16,12 +16,7 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import ENV from '@/constants/env';
 
-<<<<<<< HEAD
-const APIURL = "https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app";
-=======
-// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
-const APIURL = "https://0657-103-163-95-99.ngrok-free.app";
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
+const APIURL = "https://3e3b-2409-408d-303-638e-40e4-c5bb-7cfe-d7c6.ngrok-free.app";
 
 export default function index() {
   const router = useRouter();
@@ -80,23 +75,18 @@ export default function index() {
         await AsyncStorage.setItem('token', result.token);
         await AsyncStorage.setItem('user', JSON.stringify(result.user));
 
-        // ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+        ToastAndroid.show('Login successful', ToastAndroid.SHORT);
         if (result.user.role === 'user') {
           router.replace('/(tabs)');
         } else if (result.user.role === 'admin') {
           router.replace('/(admintabs)/checklistListScreen');
         }
       } else {
-        // ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
+        ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
       }
     } catch (err) {
-<<<<<<< HEAD
       console.error('Login error:', err);
       ToastAndroid.show('Network error', ToastAndroid.SHORT);
-=======
-      // console.error('Login error:', err);
-      // ToastAndroid.show('Network error', ToastAndroid.SHORT);
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
     } finally {
       setSubmitting(false);
     }

@@ -26,11 +26,7 @@ export default function AddUserScreen() {
     }
 
     try {
-<<<<<<< HEAD
-      const response = await fetch("https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app/api/auth/register", {
-=======
-      const response = await fetch("https://0657-103-163-95-99.ngrok-free.app/api/auth/register", {
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
+      const response = await fetch("https://3e3b-2409-408d-303-638e-40e4-c5bb-7cfe-d7c6.ngrok-free.app/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role }),
@@ -39,22 +35,18 @@ export default function AddUserScreen() {
       const data = await response.json();
 
       if (response.ok) {
-<<<<<<< HEAD
         ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
         setUsername("");
         setPassword("");
         setRole("");
-=======
-        // ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
         console.log("user created successfully")
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
       } else {
-        // ToastAndroid.show("Error", data.message || "Failed to create user.");
+        ToastAndroid.show("Error", data.message || "Failed to create user.");
         console.log("Error", data.message)
       }
     } catch (err) {
       console.error(err);
-      // ToastAndroid.show("Network Error", ToastAndroid.SHORT);
+      ToastAndroid.show("Network Error", ToastAndroid.SHORT);
     }
   };
 

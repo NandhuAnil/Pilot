@@ -9,12 +9,8 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
-<<<<<<< HEAD
-const APIURL = "https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app";
-=======
 // const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
-const APIURL = "https://0657-103-163-95-99.ngrok-free.app";
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
+const APIURL = "https://3e3b-2409-408d-303-638e-40e4-c5bb-7cfe-d7c6.ngrok-free.app";
 
 interface PilotInfo {
     date?: string;
@@ -40,7 +36,7 @@ export default function ChecklistListScreen() {
             try {
                 const response = await fetch(`${APIURL}/api/checklist/all`);
                 const result = await response.json();
-
+                console.log(result);
                 setChecklists(result);
             } catch (err) {
                 console.error("Error fetching checklist data:", err);
@@ -70,10 +66,6 @@ export default function ChecklistListScreen() {
                     .map((entry: ChecklistEntry, index: number) => {
                         const pilotName = entry.pilotInfo?.pilotName || "Unknown Pilot";
                         const date = entry.pilotInfo?.date || `Entry ${entries.length - index}`;
-                        console.log("Navigating with:", {
-                            username,
-                            entryId: entry.id
-                        });
                         return (
                             <TouchableOpacity
                                 key={entry.id || index}
@@ -81,7 +73,7 @@ export default function ChecklistListScreen() {
                                 onPress={() =>
                                     router.push({
                                         pathname: "/(components)/ChecklistDetailsScreen",
-                                        params: { username, entryId: entry.id, },
+                                        params: { username },
                                     })
                                 }
                                 activeOpacity={0.8}

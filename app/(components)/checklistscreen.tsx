@@ -12,8 +12,6 @@ import Checkbox from 'expo-checkbox';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
-const APIURL = "https://5b7d-103-163-95-99.ngrok-free.app";
-// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
 
 type GuidelineItem = {
   title: string;
@@ -63,33 +61,6 @@ export default function ChecklistScreen() {
         });
     };
 
-<<<<<<< HEAD
-    try {
-      const response = await fetch('https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app/api/checklist/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token ? `Bearer ${token}` : '',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        ToastAndroid.show('Submitted successfully', ToastAndroid.SHORT);
-        router.push("/(tabs)")
-      } else {
-        ToastAndroid.show('Error', result.message || 'Failed to submit');
-      }
-    } catch (err) {
-      ToastAndroid.show('Network Error', ToastAndroid.SHORT);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-=======
->>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Pre-Approved List</Text>
