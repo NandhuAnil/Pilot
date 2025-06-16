@@ -92,7 +92,7 @@ export default function weatherReport() {
       };
 
       router.push({
-        pathname: '/(components)/checklistscreen',
+        pathname: '/(components)/ImageUploader',
         params: {
           pilotInfo: JSON.stringify(allData.pilotInfo),
           weatherReport: JSON.stringify(allData.weatherReport),

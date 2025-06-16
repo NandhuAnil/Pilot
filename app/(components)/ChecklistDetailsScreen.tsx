@@ -8,10 +8,18 @@ import {
   View,
 } from "react-native";
 
+<<<<<<< HEAD
 const APIURL = "https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app";
 
 export default function ChecklistDetailsScreen() {
   const { entryId, username } = useLocalSearchParams();
+=======
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://5b7d-103-163-95-99.ngrok-free.app";
+
+export default function ChecklistDetailsScreen() {
+  const { username, entryId } = useLocalSearchParams();
+>>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
   const [entry, setEntry] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 

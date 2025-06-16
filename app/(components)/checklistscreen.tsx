@@ -9,9 +9,11 @@ import {
   Alert
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+
+const APIURL = "https://5b7d-103-163-95-99.ngrok-free.app";
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
 
 type GuidelineItem = {
   title: string;
@@ -21,37 +23,11 @@ type GuidelineItem = {
 
 export default function ChecklistScreen() {
   const [guidelines, setGuidelines] = useState<GuidelineItem[]>([]);
-  const [pilotInfo, setPilotInfo] = useState<any>(null);
-  const [weatherReport, setWeatherReport] = useState<any>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
   const params = useLocalSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
-    const loadInitialData = async () => {
-      try {
-        const pilot = params.pilotInfo
-          ? JSON.parse(params.pilotInfo as string)
-          : JSON.parse((await AsyncStorage.getItem('pilotInfo')) || '{}');
-
-        const weather = params.weatherReport
-          ? JSON.parse(params.weatherReport as string)
-          : JSON.parse((await AsyncStorage.getItem('weatherReport')) || '{}');
-
-        const savedToken = await AsyncStorage.getItem('token');
-        const savedUser = await AsyncStorage.getItem('user');
-
-        setPilotInfo(pilot);
-        setWeatherReport(weather);
-        setToken(savedToken);
-        setUsername(savedUser ? JSON.parse(savedUser).username : null);
-      } catch (err) {
-        ToastAndroid.show('Failed to load data', ToastAndroid.SHORT);
-      }
-    };
-
     const loadGuidelines = () => {
       const jsonData = require('@/assets/guidelines.json');
       const checklist = jsonData.map((item: GuidelineItem) => ({
@@ -61,7 +37,6 @@ export default function ChecklistScreen() {
       setGuidelines(checklist);
     };
 
-    loadInitialData();
     loadGuidelines();
   }, []);
 
@@ -75,15 +50,20 @@ export default function ChecklistScreen() {
     Alert.alert('Guideline Info', description);
   };
 
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    const payload = {
-      username,
-      pilotInfo,
-      weatherReport,
-      checklist: guidelines,
+  const handleNext = () => {
+        router.push({
+            pathname: '/(components)/AfterFlyingImageUploader',
+            params: {
+                pilotInfo: params.pilotInfo,
+                weatherReport: params.weatherReport,
+                username: params.username,
+                beforeFlyingImage: params.beforeFlyingImage,
+                guidelines: JSON.stringify(guidelines),
+            },
+        });
     };
 
+<<<<<<< HEAD
     try {
       const response = await fetch('https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app/api/checklist/save', {
         method: 'POST',
@@ -108,6 +88,8 @@ export default function ChecklistScreen() {
     }
   };
 
+=======
+>>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Pre-Approved List</Text>
@@ -115,21 +97,21 @@ export default function ChecklistScreen() {
         <View key={index} style={styles.row}>
           <TouchableOpacity
             style={styles.textContainer}
-            onPress={() => showDescription(item.description)}
+            onPress={() => toggleCheck(index)}
+            onLongPress={() => showDescription(item.description)}
           >
             <Text style={styles.label}>{item.title}</Text>
           </TouchableOpacity>
           <Checkbox
             value={item.checked}
             onValueChange={() => toggleCheck(index)}
-            // onLongPress={() => showDescription(item.description)}
             color={item.checked ? Colors.primary : undefined}
             style={styles.checkbox}
           />
         </View>
       ))}
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>{submitting ? 'Submitting...' : 'Submit'}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
       <View>
         <Text style={{ textAlign: "center", color: '#ddd', position: 'relative', bottom: 0 }}>Powered by VAANFLY</Text>

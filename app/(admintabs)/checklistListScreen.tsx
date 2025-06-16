@@ -9,7 +9,12 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
+<<<<<<< HEAD
 const APIURL = "https://6098-2409-408d-71e-8cbd-2511-a1e1-a748-49d2.ngrok-free.app";
+=======
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://0657-103-163-95-99.ngrok-free.app";
+>>>>>>> 662420e01c1fc76690535bbd862824f085123eb4
 
 interface PilotInfo {
     date?: string;
