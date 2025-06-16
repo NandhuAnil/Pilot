@@ -15,7 +15,8 @@ import Checkbox from "expo-checkbox";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://0657-103-163-95-99.ngrok-free.app";
 
 export default function index() {
   const router = useRouter();
@@ -74,18 +75,18 @@ export default function index() {
         await AsyncStorage.setItem('token', result.token);
         await AsyncStorage.setItem('user', JSON.stringify(result.user));
 
-        ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+        // ToastAndroid.show('Login successful', ToastAndroid.SHORT);
         if (result.user.role === 'user') {
           router.replace('/(tabs)');
         } else if (result.user.role === 'admin') {
           router.replace('/(admintabs)/checklistListScreen');
         }
       } else {
-        ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
+        // ToastAndroid.show(result.message || 'Login failed', ToastAndroid.SHORT);
       }
     } catch (err) {
       // console.error('Login error:', err);
-      ToastAndroid.show('Network error', ToastAndroid.SHORT);
+      // ToastAndroid.show('Network error', ToastAndroid.SHORT);
     } finally {
       setSubmitting(false);
     }

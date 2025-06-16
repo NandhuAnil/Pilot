@@ -27,7 +27,7 @@ export default function AddUserScreen() {
     }
 
     try {
-      const response = await fetch("https://appsail-50027943202.development.catalystappsail.in/api/auth/register", {
+      const response = await fetch("https://0657-103-163-95-99.ngrok-free.app/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role }),
@@ -36,13 +36,15 @@ export default function AddUserScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
+        // ToastAndroid.show("User created successfully", ToastAndroid.SHORT);
+        console.log("user created successfully")
       } else {
-        ToastAndroid.show("Error", data.message || "Failed to create user.");
+        // ToastAndroid.show("Error", data.message || "Failed to create user.");
+        console.log("Error", data.message)
       }
     } catch (err) {
       console.error(err);
-      ToastAndroid.show("Network Error", ToastAndroid.SHORT);
+      // ToastAndroid.show("Network Error", ToastAndroid.SHORT);
     }
   };
 

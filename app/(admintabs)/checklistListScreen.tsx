@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 
-const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://0657-103-163-95-99.ngrok-free.app";
 
 interface PilotInfo {
     date?: string;
@@ -76,7 +77,7 @@ export default function ChecklistListScreen() {
                                 onPress={() =>
                                     router.push({
                                         pathname: "/(components)/ChecklistDetailsScreen",
-                                        params: { entryId: entry.id, },
+                                        params: { username, entryId: entry.id, },
                                     })
                                 }
                                 activeOpacity={0.8}

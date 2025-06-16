@@ -8,10 +8,11 @@ import {
   View,
 } from "react-native";
 
-const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+// const APIURL = "https://appsail-50027943202.development.catalystappsail.in";
+const APIURL = "https://5b7d-103-163-95-99.ngrok-free.app";
 
 export default function ChecklistDetailsScreen() {
-  const { entryId } = useLocalSearchParams();
+  const { username, entryId } = useLocalSearchParams();
   const [entry, setEntry] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +26,7 @@ export default function ChecklistDetailsScreen() {
   useEffect(() => {
     const fetchEntry = async () => {
       try {
-        const response = await fetch(`${APIURL}/api/checklist/${entryId}`);
+        const response = await fetch(`${APIURL}/api/checklist/${username}`);
         const data = await response.json();
 
         if (data && data.pilotInfo) {
